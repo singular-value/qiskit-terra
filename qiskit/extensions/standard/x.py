@@ -21,7 +21,6 @@ from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.qasm import pi
-from qiskit.extensions.standard.u3 import U3Gate
 
 
 class XGate(Gate):
@@ -32,15 +31,11 @@ class XGate(Gate):
         super().__init__("x", 1, [], label=label)
 
     def _define(self):
-        """
-        gate x a {
-        u3(pi,0,pi) a;
-        }
-        """
+        """convert to direct rx (180 degrees)."""
         definition = []
         q = QuantumRegister(1, "q")
         rule = [
-            (U3Gate(pi, 0, pi), [q[0]], [])
+            (DirectRXGate(pi), [q[0]], []),
         ]
         for inst in rule:
             definition.append(inst)
