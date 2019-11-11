@@ -17,6 +17,7 @@
 from .barrier import Barrier
 from .direct_rx import DirectRXGate
 from .ccx import ToffoliGate
+from .cr import CRGate
 from .cswap import FredkinGate
 from .cx import CnotGate
 from .cxbase import CXBase
