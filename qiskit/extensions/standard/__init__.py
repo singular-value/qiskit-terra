@@ -47,3 +47,4 @@ from .cu3 import Cu3Gate
 from .rzz import RZZGate
 from .rxx import RXXGate
 from .ms import MSGate
+from .zz_interaction import ZZInteractionGate
