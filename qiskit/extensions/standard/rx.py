@@ -20,7 +20,7 @@ import numpy
 from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
-from qiskit.extensions.standard.r import RGate
+from qiskit.extensions.standard.direct_rx import DirectRXGate
 
 
 class RXGate(Gate):
@@ -37,7 +37,7 @@ class RXGate(Gate):
         definition = []
         q = QuantumRegister(1, "q")
         rule = [
-            (RGate(self.params[0], 0), [q[0]], [])
+            (DirectRXGate(self.params[0]), [q[0]], [])
         ]
         for inst in rule:
             definition.append(inst)
