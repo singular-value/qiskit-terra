@@ -21,7 +21,8 @@ from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.qasm import pi
-from qiskit.extensions.standard.u2 import U2Gate
+from qiskit.extensions.standard.u1 import U1Gate
+from qiskit.extensions.standard.direct_rx import DirectRXGate
 
 
 class HGate(Gate):
@@ -37,8 +38,10 @@ class HGate(Gate):
         """
         definition = []
         q = QuantumRegister(1, "q")
-        rule = [
-            (U2Gate(0, pi), [q[0]], [])
+        rule = [  # H = S Rx(pi/2) S (up to global phase)
+            (U1Gate(pi/2), [q[0]], []),
+            (DirectRXGate(pi/2), [q[0]], []),
+            (U1Gate(pi/2), [q[0]], []),
         ]
         for inst in rule:
             definition.append(inst)
