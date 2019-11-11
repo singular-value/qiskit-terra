@@ -14,6 +14,7 @@
 
 """Standard gates."""
 from .barrier import Barrier
+from .direct_rx import DirectRXGate
 from .ccx import ToffoliGate
 from .cswap import FredkinGate
 from .cx import CnotGate
