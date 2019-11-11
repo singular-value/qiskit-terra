@@ -19,7 +19,6 @@ import numpy
 from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
-from qiskit.extensions.standard.u3 import U3Gate
 
 
 class U1Gate(Gate):
@@ -28,16 +27,6 @@ class U1Gate(Gate):
     def __init__(self, theta, label=None):
         """Create new diagonal single-qubit gate."""
         super().__init__("u1", 1, [theta], label=label)
-
-    def _define(self):
-        definition = []
-        q = QuantumRegister(1, "q")
-        rule = [
-            (U3Gate(0, 0, self.params[0]), [q[0]], [])
-        ]
-        for inst in rule:
-            definition.append(inst)
-        self.definition = definition
 
     def inverse(self):
         """Invert this gate."""
