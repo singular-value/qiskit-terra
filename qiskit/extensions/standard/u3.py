@@ -19,6 +19,8 @@ Two-pulse single-qubit gate.
 import numpy
 from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
+from qiskit.extensions.standard.u1 import U1Gate
+from qiskit.extensions.standard.direct_rx import DirectRXGate
 
 
 class U3Gate(Gate):
@@ -27,6 +29,23 @@ class U3Gate(Gate):
     def __init__(self, theta, phi, lam, label=None):
         """Create new two-pulse single qubit gate."""
         super().__init__("u3", 1, [theta, phi, lam], label=label)
+
+    def _define(self):
+        """Decompose via identity in [McKay et al. 2017, 17] (arxiv.org/pdf/1612.00858.pdf).
+
+        U3(theta, phi, lam) = RZ(phi) * DirectRX(theta) * RZ(lam)
+        """
+        definition = []
+        q = QuantumRegister(2, "q")
+        theta, phi, lam = params[0], params[1], params[2]
+        rule = [
+            (U1Gate(phi), [q[0]], []),
+            (DirectRXGate(theta), [q[0]], []),
+            (U1Gate(lam), [q[0]], []),
+        ]
+        for inst in rule:
+            definition.append(inst)
+        self.definition = definition
 
     def inverse(self):
         """Invert this gate.
