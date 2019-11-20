@@ -18,8 +18,11 @@ ZZ-Interaction (e^{-i ZZ theta}) gate.
 from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
+from qiskit.qasm import pi
 from qiskit.extensions.standard.u1 import U1Gate
-from qiskit.extensions.standard.cx import CnotGate
+from qiskit.extensions.standard.u2 import U2Gate
+from qiskit.extensions.standard.cr import CRGate
+from qiskit.extensions.standard.direct_rx import DirectRXGate
 
 
 class ZZInteractionGate(Gate):
@@ -30,14 +33,20 @@ class ZZInteractionGate(Gate):
 
     def _define(self):
         """
-        TODO(pranav): decompose to a single CR gate
+        Decomposition into a single CR gate is
+        --RZ(theta)----| CR  |---X----
+        ------H--------|theta|---H----
         """
         definition = []
         q = QuantumRegister(2, "q")
+        theta = self.params[0]
+
         rule = [
-            (CnotGate(), [q[0], q[1]], []),
-            (U1Gate(self.params[0]), [q[1]], []),
-            (CnotGate(), [q[0], q[1]], [])
+            (U1Gate(theta), [q[0]], []),
+            (U2Gate(0, pi), [q[1]], []),
+            (CRGate(theta), [q[0], q[1]], []),
+            (DirectRXGate(pi), [q[0]], []),
+            (U2Gate(0, pi), [q[1]], []),
         ]
         for inst in rule:
             definition.append(inst)
