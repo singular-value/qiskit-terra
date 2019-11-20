@@ -22,6 +22,7 @@ from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.qasm import pi
+from qiskit.extensions.standard.u1 import U1Gate
 from qiskit.extensions.standard.direct_rx import DirectRXGate
 from qiskit.extensions.standard.cr import CRGate
 
@@ -46,6 +47,7 @@ class CnotGate(Gate):
         q = QuantumRegister(2, "q")
         rule = [
             (DirectRXGate(pi), [q[0]], []),
+            (U1Gate(-pi/2), [q[0]], []),
             (DirectRXGate(pi/2), [q[1]], []),
             (CRGate(pi/2), [q[0], q[1]], []),
         ]
