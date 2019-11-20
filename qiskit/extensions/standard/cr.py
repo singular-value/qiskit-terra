@@ -21,7 +21,15 @@ from qiskit.circuit import QuantumRegister
 
 
 class CRGate(Gate):
-    """Cross-Resonance gate. Implemented as aceCR per Sheldon et al."""
+    """Cross-Resonance gate. Implemented as aceCR per Sheldon et al.
+    NOTE: HAS SIDE EFFECT OF FLIPPING CONTROL. Callees should handle.
+    Or better yet, we should restructure so that control flip is.
+
+    In other words, what this gate really does is
+    X(control) folowed by CR(-theta)
+    or equivalently
+    CR(theta) followed by X(control)
+    """
 
     def __init__(self, theta):
         super().__init__("cr_%s" % theta, 2, [theta])
