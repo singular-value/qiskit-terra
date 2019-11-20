@@ -47,9 +47,7 @@ class CnotGate(Gate):
         rule = [
             (DirectRXGate(pi), [q[0]], []),
             (DirectRXGate(pi/2), [q[1]], []),
-            (CRGate(pi/4), [q[0], q[1]], []),
-            (DirectRXGate(pi), [q[0]], []),
-            (CRGate(-pi/4), [q[0], q[1]], []),
+            (CRGate(pi/2), [q[0], q[1]], []),
         ]
         for inst in rule:
             definition.append(inst)

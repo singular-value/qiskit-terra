@@ -21,10 +21,10 @@ from qiskit.circuit import QuantumRegister
 
 
 class CRGate(Gate):
-    """Cross-Resonance gate."""
+    """Cross-Resonance gate. Implemented as aceCR per Sheldon et al."""
 
     def __init__(self, theta):
-        super().__init__("cr", 2, [theta])
+        super().__init__("cr_%s" % theta, 2, [theta])
 
     def inverse(self):
         """Invert this gate."""
