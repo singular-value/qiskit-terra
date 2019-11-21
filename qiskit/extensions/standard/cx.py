@@ -37,11 +37,14 @@ class CnotGate(Gate):
     def _define(self):
         """
         Cnot decomposes into:
-        ---RX(pi)---| CR |--RX(pi)--|  CR |--
-        --RX(pi/2)--|pi/4|----------|-pi/4|--
-        algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B%22X%22%2C%22X%5E%C2%BD%22%5D%2C%5B%22%E2%
-        97%A6%22%2C%22X%5E%C2%BC%22%5D%2C%5B%22%E2%80%A2%22%2C%22X%5E-%C2%BC%22%5D%2C%5B%22X%22%5D%2
-        C%5B%22%E2%97%A6%22%2C%22X%5E-%C2%BC%22%5D%2C%5B%22%E2%80%A2%22%2C%22X%5E%C2%BC%22%5D%5D%7D
+        ---RX(pi)---Sdag---| CR with X side effect |--RX(pi)---
+        --RX(pi/2)---------|          pi/2         |-----------
+        algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B%22X%22%2C%7B%22id%22%3A%22Rxft%22%2C%22
+        arg%22%3A%22pi%2F2%22%7D%5D%2C%5B%22Z%5E-%C2%BD%22%5D%2C%5B%22%E2%97%A6%22%2C%7B%22id%22%3A
+        %22Rxft%22%2C%22arg%22%3A%22pi%2F4%22%7D%5D%2C%5B%22%E2%80%A2%22%2C%7B%22id%22%3A%22Rxft%22
+        %2C%22arg%22%3A%22-pi%2F4%22%7D%5D%2C%5B%5D%2C%5B%22X%22%5D%2C%5B%22%E2%97%A6%22%2C%7B%22id
+        %22%3A%22Rxft%22%2C%22arg%22%3A%22-pi%2F4%22%7D%5D%2C%5B%5D%2C%5B%22%E2%80%A2%22%2C%7B%22id
+        %22%3A%22Rxft%22%2C%22arg%22%3A%22pi%2F4%22%7D%5D%5D%7D
         """
         definition = []
         q = QuantumRegister(2, "q")
