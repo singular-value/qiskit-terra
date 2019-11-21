@@ -25,6 +25,7 @@ from .cz import CzGate
 from .swap import SwapGate
 from .h import HGate
 from .iden import IdGate
+from .opencx import OpenCnotGate
 from .s import SGate
 from .s import SdgGate
 from .t import TGate
