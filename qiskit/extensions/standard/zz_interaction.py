@@ -44,8 +44,8 @@ class ZZInteractionGate(Gate):
         rule = [
             (U1Gate(theta), [q[0]], []),
             (U2Gate(0, pi), [q[1]], []),
-            (CRGate(theta), [q[0], q[1]], []),
             (DirectRXGate(pi), [q[0]], []),
+            (CRGate(theta), [q[0], q[1]], []),
             (U2Gate(0, pi), [q[1]], []),
         ]
         for inst in rule:
