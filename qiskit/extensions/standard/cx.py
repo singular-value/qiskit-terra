@@ -49,8 +49,8 @@ class CnotGate(Gate):
         definition = []
         q = QuantumRegister(2, "q")
         rule = [
+            (U1Gate(pi/2), [q[0]], []),
             (DirectRXGate(pi), [q[0]], []),
-            (U1Gate(-pi/2), [q[0]], []),
             (DirectRXGate(pi/2), [q[1]], []),
             (CRGate(pi/2), [q[0], q[1]], []),
         ]

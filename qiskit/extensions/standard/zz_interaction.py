@@ -42,6 +42,7 @@ class ZZInteractionGate(Gate):
         theta = self.params[0]
 
         rule = [
+            (U1Gate(pi/2), [q[0]], []),
             (DirectRXGate(pi), [q[0]], []),
             (U2Gate(0, pi), [q[1]], []),
             (CRGate(theta), [q[0], q[1]], []),
