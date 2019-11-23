@@ -34,18 +34,17 @@ class ZZInteractionGate(Gate):
     def _define(self):
         """
         Decomposition into a single CR gate is
-        ----X---| CR  |-------
-        ----H---|theta|---H---
+        ----X---|  CR  |-------
+        ----H---|-theta|---H---
         """
         definition = []
         q = QuantumRegister(2, "q")
         theta = self.params[0]
 
         rule = [
-            (U1Gate(pi/2), [q[0]], []),
             (DirectRXGate(pi), [q[0]], []),
             (U2Gate(0, pi), [q[1]], []),
-            (CRGate(theta), [q[0], q[1]], []),
+            (CRGate(-theta), [q[0], q[1]], []),
             (U2Gate(0, pi), [q[1]], []),
         ]
         for inst in rule:
