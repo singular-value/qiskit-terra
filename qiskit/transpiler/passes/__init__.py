@@ -152,3 +152,5 @@ from .mapping.lookahead_swap import LookaheadSwap
 from .remove_diagonal_gates_before_measure import RemoveDiagonalGatesBeforeMeasure
 from .mapping.stochastic_swap import StochasticSwap
 from .remove_final_measurements import RemoveFinalMeasurements
+from .search_zz import MatchZZInteraction
+from .commutative_search_zz import CommutativeMatchZZInteraction
