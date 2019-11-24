@@ -39,9 +39,9 @@ class U3Gate(Gate):
         q = QuantumRegister(2, "q")
         theta, phi, lam = params[0], params[1], params[2]
         rule = [
-            (U1Gate(phi), [q[0]], []),
-            (DirectRXGate(theta), [q[0]], []),
             (U1Gate(lam), [q[0]], []),
+            (DirectRXGate(theta), [q[0]], []),
+            (U1Gate(phi), [q[0]], []),
         ]
         for inst in rule:
             definition.append(inst)
