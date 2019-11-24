@@ -31,17 +31,16 @@ class U3Gate(Gate):
         super().__init__("u3", 1, [theta, phi, lam], label=label)
 
     def _define(self):
-        """Decompose via identity in [McKay et al. 2017, 17] (arxiv.org/pdf/1612.00858.pdf).
-
-        U3(theta, phi, lam) = RZ(phi) * DirectRX(theta) * RZ(lam)
+        """Decompose via identity similar to [McKay et al. 2017, 17] (arxiv.org/pdf/1612.00858.pdf).
+        U3(theta, phi, lambda) = RZ(lambda - pi/2) * RX(theta) * RZ(phi + pi/2)
         """
         definition = []
         q = QuantumRegister(2, "q")
         theta, phi, lam = params[0], params[1], params[2]
         rule = [
-            (U1Gate(lam), [q[0]], []),
+            (U1Gate(lam - np.pi/2), [q[0]], []),
             (DirectRXGate(theta), [q[0]], []),
-            (U1Gate(phi), [q[0]], []),
+            (U1Gate(phi + np.pi/2), [q[0]], []),
         ]
         for inst in rule:
             definition.append(inst)
