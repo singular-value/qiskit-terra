@@ -19,7 +19,6 @@ from .ccx import ToffoliGate
 from .cr import CRGate
 from .cswap import FredkinGate
 from .cx import CnotGate
-from .cxbase import CXBase
 from .cy import CyGate
 from .cz import CzGate
 from .swap import SwapGate
@@ -33,7 +32,6 @@ from .t import TdgGate
 from .u1 import U1Gate
 from .u2 import U2Gate
 from .u3 import U3Gate
-from .ubase import UBase
 from .x import XGate
 from .y import YGate
 from .z import ZGate
