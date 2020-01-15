@@ -35,28 +35,32 @@ class CnotGate(Gate):
         super().__init__("cx", 2, [])
 
     def _define(self):
-        """
-        Cnot decomposes into:
-        ---RX(pi)---Sdag---| CR with X side effect |----
-        --RX(pi/2)---------|          pi/2         |----
-        algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B%22X%22%2C%7B%22id%22%3A%22Rxft%22%2C%22
-        arg%22%3A%22pi%2F2%22%7D%5D%2C%5B%22Z%5E-%C2%BD%22%5D%2C%5B%22%E2%97%A6%22%2C%7B%22id%22%3A
-        %22Rxft%22%2C%22arg%22%3A%22pi%2F4%22%7D%5D%2C%5B%22%E2%80%A2%22%2C%7B%22id%22%3A%22Rxft%22
-        %2C%22arg%22%3A%22-pi%2F4%22%7D%5D%2C%5B%5D%2C%5B%22X%22%5D%2C%5B%22%E2%97%A6%22%2C%7B%22id
-        %22%3A%22Rxft%22%2C%22arg%22%3A%22-pi%2F4%22%7D%5D%2C%5B%5D%2C%5B%22%E2%80%A2%22%2C%7B%22id
-        %22%3A%22Rxft%22%2C%22arg%22%3A%22pi%2F4%22%7D%5D%5D%7D
-        """
-        definition = []
-        q = QuantumRegister(2, "q")
-        rule = [
-            (U1Gate(pi/2), [q[0]], []),
-            (DirectRXGate(pi), [q[0]], []),
-            (DirectRXGate(pi/2), [q[1]], []),
-            (CRGate(pi/2), [q[0], q[1]], []),
-        ]
-        for inst in rule:
-            definition.append(inst)
-        self.definition = definition
+        from qiskit import PULSE_BACKED_OPTIMIZATION
+        if PULSE_BACKED_OPTIMIZATION:
+            """
+            Cnot decomposes into:
+            ---RX(pi)---Sdag---| CR with X side effect |----
+            --RX(pi/2)---------|          pi/2         |----
+            algassert.com/quirk#circuit=%7B%22cols%22%3A%5B%5B%22X%22%2C%7B%22id%22%3A%22Rxft%22%2C%22
+            arg%22%3A%22pi%2F2%22%7D%5D%2C%5B%22Z%5E-%C2%BD%22%5D%2C%5B%22%E2%97%A6%22%2C%7B%22id%22%3A
+            %22Rxft%22%2C%22arg%22%3A%22pi%2F4%22%7D%5D%2C%5B%22%E2%80%A2%22%2C%7B%22id%22%3A%22Rxft%22
+            %2C%22arg%22%3A%22-pi%2F4%22%7D%5D%2C%5B%5D%2C%5B%22X%22%5D%2C%5B%22%E2%97%A6%22%2C%7B%22id
+            %22%3A%22Rxft%22%2C%22arg%22%3A%22-pi%2F4%22%7D%5D%2C%5B%5D%2C%5B%22%E2%80%A2%22%2C%7B%22id
+            %22%3A%22Rxft%22%2C%22arg%22%3A%22pi%2F4%22%7D%5D%5D%7D
+            """
+            definition = []
+            q = QuantumRegister(2, "q")
+            rule = [
+                (U1Gate(pi/2), [q[0]], []),
+                (DirectRXGate(pi), [q[0]], []),
+                (DirectRXGate(pi/2), [q[1]], []),
+                (CRGate(pi/2), [q[0], q[1]], []),
+            ]
+            for inst in rule:
+                definition.append(inst)
+            self.definition = definition
+        else:
+            super()._define()
 
     def inverse(self):
         """Invert this gate."""

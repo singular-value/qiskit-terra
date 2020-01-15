@@ -17,6 +17,7 @@ Two-pulse single-qubit gate.
 """
 
 import numpy
+from qiskit import PULSE_BACKED_OPTIMIZATION
 from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.extensions.standard.u1 import U1Gate
@@ -31,20 +32,23 @@ class U3Gate(Gate):
         super().__init__("u3", 1, [theta, phi, lam], label=label)
 
     def _define(self):
-        """Decompose via identity similar to [McKay et al. 2017, 17] (arxiv.org/pdf/1612.00858.pdf).
-        U3(theta, phi, lambda) = RZ(lambda - pi/2) * RX(theta) * RZ(phi + pi/2)
-        """
-        definition = []
-        q = QuantumRegister(2, "q")
-        theta, phi, lam = params[0], params[1], params[2]
-        rule = [
-            (U1Gate(lam - np.pi/2), [q[0]], []),
-            (DirectRXGate(theta), [q[0]], []),
-            (U1Gate(phi + np.pi/2), [q[0]], []),
-        ]
-        for inst in rule:
-            definition.append(inst)
-        self.definition = definition
+        if PULSE_BACKED_OPTIMIZATION:
+            """Decompose via identity similar to [McKay et al. 2017, 17] (arxiv.org/pdf/1612.00858.pdf).
+            U3(theta, phi, lambda) = RZ(lambda - pi/2) * RX(theta) * RZ(phi + pi/2)
+            """
+            definition = []
+            q = QuantumRegister(2, "q")
+            theta, phi, lam = params[0], params[1], params[2]
+            rule = [
+                (U1Gate(lam - np.pi/2), [q[0]], []),
+                (DirectRXGate(theta), [q[0]], []),
+                (U1Gate(phi + np.pi/2), [q[0]], []),
+            ]
+            for inst in rule:
+                definition.append(inst)
+            self.definition = definition
+        else:
+            super()._define()
 
     def inverse(self):
         """Invert this gate.

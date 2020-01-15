@@ -21,6 +21,9 @@ import pkgutil
 import sys
 import warnings
 
+global PULSE_BACKED_OPTIMIZATION
+PULSE_BACKED_OPTIMIZATION = False
+
 # First, check for required Python and API version
 from . import util
 

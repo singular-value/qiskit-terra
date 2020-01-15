@@ -17,11 +17,13 @@ Pauli X (bit-flip) gate.
 """
 import numpy
 
+from qiskit import PULSE_BACKED_OPTIMIZATION
 from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
 from qiskit.qasm import pi
 from qiskit.extensions.standard.direct_rx import DirectRXGate
+from qiskit.extensions.standard.u3 import U3Gate
 
 
 class XGate(Gate):
@@ -35,9 +37,15 @@ class XGate(Gate):
         """convert to direct rx (180 degrees)."""
         definition = []
         q = QuantumRegister(1, "q")
-        rule = [
-            (DirectRXGate(pi), [q[0]], []),
-        ]
+        if PULSE_BACKED_OPTIMIZATION:
+            rule = [
+                (DirectRXGate(pi), [q[0]], []),
+            ]
+        else:
+            rule = [
+                (U3Gate(pi, 0, pi), [q[0]], [])
+            ]
+
         for inst in rule:
             definition.append(inst)
         self.definition = definition
