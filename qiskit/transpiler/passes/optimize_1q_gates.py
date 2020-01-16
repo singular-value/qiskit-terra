@@ -47,6 +47,9 @@ class Optimize1qGates(TransformationPass):
         runs = dag.collect_runs(["u1", "u2", "u3"], prefixlist=["direct_rx"])
         runs = _split_runs_on_parameters(runs)
         for run in runs:
+            if len(run) == 1:
+                continue
+
             right_name = "u1"
             right_parameters = (0, 0, 0)  # (theta, phi, lambda)
 
