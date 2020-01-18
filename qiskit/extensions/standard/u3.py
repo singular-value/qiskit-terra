@@ -17,6 +17,7 @@ Two-pulse single-qubit gate.
 """
 
 import numpy
+from qiskit import PulseBackedOptimizationContext
 from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.extensions.standard.u1 import U1Gate
@@ -31,8 +32,7 @@ class U3Gate(Gate):
         super().__init__("u3", 1, [theta, phi, lam], label=label)
 
     def _define(self):
-        from qiskit import PULSE_BACKED_OPTIMIZATION
-        if PULSE_BACKED_OPTIMIZATION:
+        if PulseBackedOptimizationContext.get():
             """Decompose via identity similar to [McKay et al. 2017, 17] (arxiv.org/pdf/1612.00858.pdf).
             U3(theta, phi, lambda) = RZ(lambda - pi/2) * RX(theta) * RZ(phi + pi/2)
             """

@@ -18,6 +18,7 @@ controlled-NOT gate.
 
 import numpy
 
+from qiskit import PulseBackedOptimizationContext
 from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
@@ -35,8 +36,7 @@ class CnotGate(Gate):
         super().__init__("cx", 2, [])
 
     def _define(self):
-        from qiskit import PULSE_BACKED_OPTIMIZATION
-        if PULSE_BACKED_OPTIMIZATION:
+        if PulseBackedOptimizationContext.get():
             """
             Cnot decomposes into:
             ---RX(pi)---Sdag---| CR with X side effect |----

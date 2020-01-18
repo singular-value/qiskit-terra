@@ -21,8 +21,26 @@ import pkgutil
 import sys
 import warnings
 
-global PULSE_BACKED_OPTIMIZATION
-PULSE_BACKED_OPTIMIZATION = False
+
+global _PULSE_BACKED_OPTIMIZATION
+_PULSE_BACKED_OPTIMIZATION = False  # get and set via PulseBackedOptimizationContext
+
+
+class PulseBackedOptimizationContext(object):
+    def __enter__(self):
+        global _PULSE_BACKED_OPTIMIZATION
+        self._previous_PULSE_BACKED_OPTIMIZATION = _PULSE_BACKED_OPTIMIZATION
+        _PULSE_BACKED_OPTIMIZATION = True
+
+    def __exit__(self, type, value, traceback):
+        global _PULSE_BACKED_OPTIMIZATION
+        _PULSE_BACKED_OPTIMIZATION = self._previous_PULSE_BACKED_OPTIMIZATION
+
+    @staticmethod
+    def get():
+        global _PULSE_BACKED_OPTIMIZATION
+        return _PULSE_BACKED_OPTIMIZATION
+
 
 # First, check for required Python and API version
 from . import util

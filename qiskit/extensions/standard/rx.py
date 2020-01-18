@@ -18,6 +18,7 @@ Rotation around the x-axis.
 import math
 import numpy
 import numpy as np
+from qiskit import PulseBackedOptimizationContext
 from qiskit.circuit import Gate
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit import QuantumRegister
@@ -38,8 +39,7 @@ class RXGate(Gate):
         """
         definition = []
         q = QuantumRegister(1, "q")
-        from qiskit import PULSE_BACKED_OPTIMIZATION
-        if PULSE_BACKED_OPTIMIZATION:
+        if PulseBackedOptimizationContext.get():
             rule = [
                 (DirectRXGate(self.params[0]), [q[0]], [])
             ]
