@@ -16,10 +16,10 @@
 Two-pulse single-qubit gate.
 """
 
-import numpy
+import numpy as np
 from qiskit import PulseBackedOptimizationContext
 from qiskit.circuit import Gate
-from qiskit.circuit import QuantumCircuit
+from qiskit.circuit import QuantumCircuit, QuantumRegister
 from qiskit.extensions.standard.u1 import U1Gate
 from qiskit.extensions.standard.direct_rx import DirectRXGate
 
@@ -37,8 +37,8 @@ class U3Gate(Gate):
             U3(theta, phi, lambda) = RZ(lambda - pi/2) * RX(theta) * RZ(phi + pi/2)
             """
             definition = []
-            q = QuantumRegister(2, "q")
-            theta, phi, lam = params[0], params[1], params[2]
+            q = QuantumRegister(1, "q")
+            theta, phi, lam = self.params[0], self.params[1], self.params[2]
             rule = [
                 (U1Gate(lam - np.pi/2), [q[0]], []),
                 (DirectRXGate(theta), [q[0]], []),
@@ -61,14 +61,14 @@ class U3Gate(Gate):
         """Return a Numpy.array for the U3 gate."""
         theta, phi, lam = self.params
         theta, phi, lam = float(theta), float(phi), float(lam)
-        return numpy.array(
+        return np.array(
             [[
-                numpy.cos(theta / 2),
-                -numpy.exp(1j * lam) * numpy.sin(theta / 2)
+                np.cos(theta / 2),
+                -np.exp(1j * lam) * np.sin(theta / 2)
             ],
              [
-                 numpy.exp(1j * phi) * numpy.sin(theta / 2),
-                 numpy.exp(1j * (phi + lam)) * numpy.cos(theta / 2)
+                 np.exp(1j * phi) * np.sin(theta / 2),
+                 np.exp(1j * (phi + lam)) * np.cos(theta / 2)
              ]],
             dtype=complex)
 

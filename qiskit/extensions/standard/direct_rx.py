@@ -25,7 +25,6 @@ from qiskit.qasm import pi
 class DirectRXGate(Gate):
     """Direct RX(theta) gate accomplished at the pulse level."""
     def __init__(self, theta, label=None):
-        assert 0 <= theta and theta <= 2 * pi
         super().__init__("direct_rx_%s" % theta, 1, [theta], label=label)
 
 
