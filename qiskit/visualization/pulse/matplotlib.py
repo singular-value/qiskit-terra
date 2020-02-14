@@ -525,13 +525,13 @@ class ScheduleDrawer:
                 # plot
                 ax.fill_between(x=time, y1=re, y2=offset,
                                 facecolor=color[0], alpha=0.3,
-                                edgecolor=color[0], linewidth=1.5,
-                                label='real part')
+                                edgecolor=color[0], linewidth=2,
+                                label='Re[%s(t)]' % channel.name)
                 ax.fill_between(x=time, y1=im, y2=offset,
                                 facecolor=color[1], alpha=0.3,
-                                edgecolor=color[1], linewidth=1.5,
-                                label='imaginary part')
-                ax.plot((t0, tf), (y0, y0), color='#000000', linewidth=1.0)
+                                edgecolor=color[1], linewidth=2,
+                                label='Im[%s(t)]' % channel.name)
+                ax.plot((t0, tf), (y0, y0), color='#000000', linewidth=2.0)
 
                 # plot frame changes
                 fcs = events.framechanges
@@ -547,7 +547,7 @@ class ScheduleDrawer:
                 continue
 
             # plot label
-            ax.text(x=0, y=y0, s=channel.name,
+            ax.text(x=0, y=y0, s='%s amp.' % channel.name,
                     fontsize=self.style.axis_font_size,
                     ha='right', va='center')
 
@@ -638,5 +638,8 @@ class ScheduleDrawer:
         ax.set_xlim(t0 * dt, tf * dt)
         ax.set_ylim(y0, 1)
         ax.set_yticklabels([])
+        ax.set_xlabel('Time (in dt units)', fontsize=16)
+        ax.legend(ncol=3, fontsize=12, loc=9)
+        ax.tick_params(axis='x', which='major', labelsize=12)
 
         return figure
